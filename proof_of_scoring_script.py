@@ -7,10 +7,10 @@ import numpy as np
 import math
 
 
-def capture_image(camera, image_name):
+def capture_image(camera, image_name, path):
     ret, img = camera.read() # Read an image from camera
     image_name = image_name + ".jpeg"
-    cv2.imwrite(os.path.join(test_image_path, image_name), img)
+    cv2.imwrite(os.path.join(path, image_name), img)
     camera.release()
     print(image_name + " captured!")
 
@@ -70,8 +70,8 @@ if __name__ == "__main__":
     parent_dir = os.path.dirname(cur_dir)
     print("current dir: ", cur_dir)
     print("parent dir: ", parent_dir)
-    test_image_path = os.path.dirname(os.getcwd()) + "/images/test"
-    print("image path: ", test_image_path)
+    image_path = os.path.dirname(os.getcwd()) + "/images/test"
+    print("image path: ", image_path)
 
 
     # initialize camera objects
@@ -80,13 +80,13 @@ if __name__ == "__main__":
 
     # Capture images of dartboard with no dart
     input("\nPress enter to capture image of dartboard with no dart")
-    capture_image(camX, "image_nodartX")
-    capture_image(camY, "image_nodartY")
+    capture_image(camX, "image_nodartX", image_path)
+    capture_image(camY, "image_nodartY", image_path)
 
     # Capture images of dartboard with dart
     input("\nPress enter to capture image of dartboard with dart")
-    capture_image(camX, "image_dartX")
-    capture_image(camY, "image_dartY")
+    capture_image(camX, "image_dartX", image_path)
+    capture_image(camY, "image_dartY", image_path)
 
 
     # load recently captured images
