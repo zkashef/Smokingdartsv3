@@ -30,18 +30,19 @@ def show_diff_image(imageA, imageB):
 
     #thresh = cv2.threshold(diff, 180, 255, cv2.THRESH_OTSU)[1]
     #thresh = cv2.threshold(diff, 150, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-    thresh = cv2.adaptiveThreshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 157, 77)
+    thresh = cv2.adaptiveThreshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 167, 87)
 
     kernel = np.ones((3, 3), np.uint8)
-    thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=1)
+    thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=2)
     
     thresh[800:] = 255
+    
     
     edge = cv2.Canny(thresh, 250, 300)
     ctrs, hier = cv2.findContours(edge, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     
-    #plt.imshow(diff, cmap='gray')
-    #plt.show()
+    plt.imshow(diff, cmap='gray')
+    plt.show()
 
     plt.imshow(edge, cmap='gray')
     plt.show()
@@ -80,7 +81,7 @@ if __name__ == "__main__":
     
     #### Impact sensor setup ####
     
-    board = pyfirmata.Arduino('/dev/ttyACM0')
+    board = pyfirmata.Arduino('/dev/ttyACM1')
     KNOCK_SENSOR = "A0"
     THRESHOLD = .1
     sensor_reading = 0
@@ -173,7 +174,7 @@ if __name__ == "__main__":
     
     # Calculate Coordinates of Dart Relative to Scoring Area
     #cam_dist = 381 #mm
-    x1, y1 = 335, 0
+    x1, y1 = 327.5, 0
     x2, y2 = 323.56, 157.81
     board_radius = 228.6
 
