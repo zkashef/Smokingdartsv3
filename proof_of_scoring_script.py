@@ -7,7 +7,11 @@ import numpy as np
 import math
 import time
 import pyfirmata
+import paho.mqtt.publish as publish
 
+MQTT_SERVER = "broker.emqx.io"  # Address for the server that hosts the broker
+#MQTT_SERVER = "broker.hivemq.com"
+authentications = {'username': "kdyer", 'password': "Green82"}  # Username and password for sending the data
 
 
 def capture_image(camera, image_name, path):
@@ -30,19 +34,19 @@ def show_diff_image(imageA, imageB):
 
     #thresh = cv2.threshold(diff, 180, 255, cv2.THRESH_OTSU)[1]
     #thresh = cv2.threshold(diff, 150, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-    thresh = cv2.adaptiveThreshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 167, 87)
+    thresh = cv2.adaptiveThreshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 157, 87)
 
     kernel = np.ones((3, 3), np.uint8)
     thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=2)
     
-    thresh[800:] = 255
-    
+    #thresh[800:] = 255
+    thresh[:40] = 255
     
     edge = cv2.Canny(thresh, 250, 300)
     ctrs, hier = cv2.findContours(edge, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     
-    plt.imshow(diff, cmap='gray')
-    plt.show()
+    #plt.imshow(diff, cmap='gray')
+    #plt.show()
 
     plt.imshow(edge, cmap='gray')
     plt.show()
@@ -125,8 +129,8 @@ if __name__ == "__main__":
     camY.set(cv2.CAP_PROP_AUTO_EXPOSURE, 3)
     camX.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
     camY.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
-    camX.set(cv2.CAP_PROP_EXPOSURE, 50)
-    camY.set(cv2.CAP_PROP_EXPOSURE, 50)
+    camX.set(cv2.CAP_PROP_EXPOSURE, 60)
+    camY.set(cv2.CAP_PROP_EXPOSURE, 60)
     
     capture_image(camX, "image_dartX", image_path)
     capture_image(camY, "image_dartY", image_path)
@@ -143,9 +147,9 @@ if __name__ == "__main__":
     # display images and resolution
     images = [image_nodartX, image_nodartY, image_dartX, image_dartY]
     for image in images:
-        plt.plot([image.shape[1]//2, image.shape[1]//2], [0, image.shape[0]], 'r-')
-        plt.imshow(image)
-        plt.show()
+        #plt.plot([image.shape[1]//2, image.shape[1]//2], [0, image.shape[0]], 'r-')
+        #plt.imshow(image)
+        #plt.show()
         print('Image Resolution: {} x {}'.format(image.shape[1], image.shape[0]))
     image_height, image_width, channels = image_nodartX.shape
 
@@ -159,26 +163,22 @@ if __name__ == "__main__":
 
 
     # compute the angles from the camera to the dart using pixel width of board and camera field of view
-    fov = 110
-    angles_cameras_to_darts = angle_from_camera_to_dart(darttip_pixel_coordinates, image_width)
+    fov = 70
+    angles_cameras_to_darts = angle_from_camera_to_dart(darttip_pixel_coordinates, image_width, fov)
     print("coordinates:", darttip_pixel_coordinates)
     print("dart_angles:", angles_cameras_to_darts)
     print("image_width: ", image_width)
 
-    
-    
-    
-    
-    
+
     
     
     # Calculate Coordinates of Dart Relative to Scoring Area
     #cam_dist = 381 #mm
-    x1, y1 = 327.5, 0
-    x2, y2 = 323.56, 157.81
+    x1, y1 = 445, 0
+    x2, y2 = 0, 430
     board_radius = 228.6
 
-    if x1 > 0:
+    """if x1 > 0:
         angle_to_center1 = 180 + math.sin(y1/x1)*180/math.pi
     else:
         angle_to_center1 =  0 + math.sin(y1/x1)*180/math.pi
@@ -187,16 +187,39 @@ if __name__ == "__main__":
         angle_to_center2 =  180 + math.sin(y2/x2)*180/math.pi
     else:
         angle_to_center2 =  0 + math.sin(y2/x2)*180/math.pi
-        
+    """
+    ### for x1, y1 #####
+    if (x1 == 0 and y1 > 0):
+        angle_to_center1 = 270
+    elif (x1 == 0 and y1 < 0):
+        angle_to_center1 = 90
+    elif (x1 > 0):
+        angle_to_center1 = 180 + math.atan(y1/x1)*180/math.pi
+    else:
+        angle_to_center1 =  (360 + math.atan(y1/x1)*180/math.pi)%360
+    
+    ###### for x2, y2 #####
+    if (x2 == 0 and y2 > 0):
+        angle_to_center2 = 270
+    elif (x2 == 0 and y2 < 0):
+        angle_to_center2 = 90
+    elif (x2 > 0):
+        angle_to_center2 = 180 + math.atan(y2/x2)*180/math.pi
+    else:
+        angle_to_center2 =  (360 + math.atan(y2/x2)*180/math.pi)%360
+    
+
     total_angle1 = angle_to_center1 + (fov/2 - angles_cameras_to_darts[0]) 
     total_angle2 = angle_to_center2 + (fov/2 - angles_cameras_to_darts[1])
     
-    if x1 > 0:
+    
+
+    if total_angle1 > 90 and total_angle1 < 270:
         slope1 = math.tan((total_angle1 - 180)*math.pi/180)
     else:
         slope1 = math.tan((total_angle1)*math.pi/180)
 
-    if x2> 0:
+    if total_angle2 > 90 and total_angle2 < 270:
         slope2 = math.tan((total_angle2 - 180)*math.pi/180)
 
     else:
@@ -204,7 +227,7 @@ if __name__ == "__main__":
 
     
     x_dart = (x1*slope1 - y1 - x2*slope2 + y2 )/(slope1 - slope2)
-    y_dart = (x_dart - x1) * slope1
+    y_dart = (x_dart - x1) * slope1 + y1
         
         
     print("x coordinate(mm): " + str(x_dart))
@@ -246,17 +269,26 @@ if __name__ == "__main__":
     print("score area: " + str(slice_area))
     print("Radius: " + str(radius))
     score = 0
+    channel = 0
     if radius <= 5:
         score = 50
         print("Bullseye!!!")
     elif radius > 5 and radius <= 15:
         score = 25
         print("Bull!!!")
+    elif radius > 15 and radius < 95:
+        channel = 12
+        score = slice_area
     elif radius >= 95 and radius <= 105:
         score = 3*slice_area
+        channel = 3
         print("Triple Score!!!")
+    elif radius > 105 and radius <160:
+        channel = 11
+        score = slice_area
     elif radius >= 160 and radius <=170:
         score = 2*slice_area
+        channel = 2
         print("Double Score!!!")
         
     elif radius > 170:
@@ -279,4 +311,8 @@ if __name__ == "__main__":
     leg_Cam2_Dart = ax.axline((x2, y2), slope = slope2)
 
     ax.plot(x_dart, y_dart)
+    
+    
+    
+    publish.single(str(channel), str(slice_area), hostname=MQTT_SERVER, auth=authentications)
     plt.show()
