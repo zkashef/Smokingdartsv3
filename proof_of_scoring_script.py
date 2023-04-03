@@ -99,7 +99,7 @@ if __name__ == "__main__":
     
         #### Impact sensor setup ####
         
-        board = pyfirmata.Arduino('/dev/ttyACM1')
+        board = pyfirmata.Arduino('/dev/ttyACM0')
         KNOCK_SENSOR = "A0"
         THRESHOLD = .1
         sensor_reading = 0
@@ -335,7 +335,6 @@ if __name__ == "__main__":
         leg_Cam2_Dart = ax.axline((x2, y2), slope = slope2)
 
         ax.plot(x_dart, y_dart)
-        
         
         
         publish.single(str(channel), str(slice_area), hostname=MQTT_SERVER, auth=authentications)
