@@ -186,7 +186,7 @@ if __name__ == "__main__":
 
 
         # compute the angles from the camera to the dart using pixel width of board and camera field of view
-        fov = 65 
+        fov = 110 
         foc_len = (image_width/2)/math.tan((fov/2)*math.pi/180)
         angles_cameras_to_darts = angle_from_camera_to_dart(darttip_pixel_coordinates, image_width, foc_len, fov)
         print("coordinates:", darttip_pixel_coordinates)
