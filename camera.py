@@ -63,7 +63,6 @@ class Camera():
             score = 2*slice_area
             channel = 2
             print("Double Score!!!")
-            
         elif radius > 170:
             score = 0
             print("Missed. Try Again.")
