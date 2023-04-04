@@ -31,16 +31,16 @@ def show_diff_image(imageA, imageB):
     grayA = cv2.cvtColor(imageA, cv2.COLOR_RGB2GRAY)
     grayB = cv2.cvtColor(imageB, cv2.COLOR_RGB2GRAY)
     
-    (score, diff) = compare_ssim(grayA, grayB, full=True)
-    #diff = cv2.subtract(grayA, grayB)
+    (score, diff) = compare_ssim(grayA, grayB, gradient_method = 'gaussian', full=True)
+    #diff = cv2.absdiff(grayA, grayB)
     diff = (diff * 255).astype("uint8")
 
     #thresh = cv2.threshold(diff, 180, 255, cv2.THRESH_OTSU)[1]
     #thresh = cv2.threshold(diff, 150, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-    thresh = cv2.adaptiveThreshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 157, 87)
+    thresh = cv2.adaptiveThreshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 185, 75)
 
     kernel = np.ones((3, 3), np.uint8)
-    thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=2)
+    thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=1)
     
     #thresh[800:] = 255
     thresh[:40] = 255
@@ -198,8 +198,8 @@ if __name__ == "__main__":
         
         # Calculate Coordinates of Dart Relative to Scoring Area
         #cam_dist = 381 #mm
-        x1, y1 = 445, 0
-        x2, y2 = 0, 430
+        x1, y1 = 307, -8
+        x2, y2 = 0, 303
         board_radius = 228.6
 
         """if x1 > 0:
