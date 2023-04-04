@@ -18,7 +18,7 @@ def capture_image(camera, image_name, path):
     ret, img = camera.read() # Read an image from camera
     #cv2.normalize(img, img, 0, 255, cv2.NORM_MINMAX)
     image_name = image_name + ".jpeg"
-    cv2.imwrite(os.path.join(path, image_name), img)
+    cv2.imwrite(os.path.join(path, image_name),  img)
     camera.release()
     print(image_name + " captured!")
 
