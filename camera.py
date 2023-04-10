@@ -144,13 +144,12 @@ class Camera():
         image_name += ".jpeg"
         cv2.imwrite(os.path.join(self.image_path, image_name), img)
         print(image_name + " captured!")
-        # draw a vertical red line through the center of the image
-        # grab image height and width
+        # show image with a vertical red line through the center of the image
         self.image_height, self.image_width, channels = img.shape
         cv2.line(img, (int(self.image_width/2), 0), (int(self.image_width/2), self.image_height), (0, 0, 255), 2)
-        # show image
         cv2.imshow('image', img)
-
+        cv2.waitKey(0)
+        return
 
     # load all four images from the image_path
     def load_images(self):
