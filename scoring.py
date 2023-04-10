@@ -45,8 +45,8 @@ if __name__ == "__main__":
 
 
         # capture initial images
-        camX.capture_image("image_nodartX", image_path)
-        camY.capture_image("image_nodartY", image_path)
+        camX.capture_image(image_path + "/image_nodartX")
+        camY.capture_image(image_path + "/image_nodartY")
         
         
         ##### Wait for impact #####
@@ -60,8 +60,8 @@ if __name__ == "__main__":
 
 
         # capture final images
-        camX.capture_image("image_dartX", image_path)
-        camY.capture_image("image_dartY", image_path)
+        camX.capture_image(image_path + "/image_dartX")
+        camY.capture_image(image_path + "/image_dartY")
 
 
         # get dart tip coordinates from images
