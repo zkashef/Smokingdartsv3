@@ -44,6 +44,12 @@ if __name__ == "__main__":
             cam = cv2.VideoCapture(i)
             if cam.isOpened():
                 cam.release()
+        try:
+            camX = Camera(0, image_path)
+            camY = Camera(2, image_path)
+        except:
+            print("Error: you're fucked, gotta reboot or something to release those camera objects")
+            exit()
 
     
     option = True
