@@ -41,7 +41,6 @@ if __name__ == "__main__":
     
     option = True
     while option: 
-        option = input("Press enter to capture initial images (0 to exit): ")
 
         # capture initial images
         camX.capture_image(image_path + "/image_nodartX")
@@ -107,4 +106,4 @@ if __name__ == "__main__":
         ax.plot(x_dart, y_dart)
         plt.show()
 
-
+        option = input("Press enter to capture initial images (0 to exit): ")
