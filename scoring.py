@@ -60,7 +60,6 @@ if __name__ == "__main__":
         # capture initial images
         camX.capture_image(image_path + "/image_nodartX")
         camY.capture_image(image_path + "/image_nodartY")
-        
 
         
         ##### Wait for impact #####
