@@ -113,8 +113,7 @@ if __name__ == "__main__":
         ax.plot(x_dart, y_dart)
         plt.show()
 
-        option = input("Press enter to capture initial images (0 to exit): ")
-
+        option = input("1 to run program again, 0 to exit: ")
 
     camX.cam.release()
     camY.cam.release()
