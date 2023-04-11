@@ -36,8 +36,15 @@ if __name__ == "__main__":
     authentications = {'username': "kdyer", 'password': "Green82"}  # Username and password for sending the data
 
     # initialize cameras
-    camX = Camera(0, image_path)
-    camY = Camera(2, image_path)
+    try:
+        camX = Camera(0, image_path)
+        camY = Camera(2, image_path)
+    except:
+        for i in range(4): #assuming there are at most 10 cameras
+            cam = cv2.VideoCapture(i)
+            if cam.isOpened():
+                cam.release()
+
     
     option = True
     while option: 
@@ -107,3 +114,7 @@ if __name__ == "__main__":
         plt.show()
 
         option = input("Press enter to capture initial images (0 to exit): ")
+
+
+    camX.cam.release()
+    camY.cam.release()
