@@ -163,7 +163,7 @@ class Camera():
     
 
     # create difference image, perform canny edge detection, and return coordinate of dart
-    def get_image_coordinate(imageA, imageB):
+    def get_image_coordinate(self, imageA, imageB):
         start_time = time.time()
         
         # create difference image
