@@ -48,17 +48,8 @@ if __name__ == "__main__":
         camX = Camera(0, image_path)
         camY = Camera(2, image_path)
     except:
-        for i in range(4): #assuming there are at most 10 cameras
-            cam = cv2.VideoCapture(i)
-            if cam.isOpened():
-                cam.release()
-        try:
-            camX = Camera(0, image_path)
-            camY = Camera(2, image_path)
-        except:
-            print("Error: you're fucked, gotta reboot or something to release those camera objects")
-            exit()
-
+        print("Gotta reboot or something to release those camera objects :/")
+        exit()
     
     option = True
     while option: 
