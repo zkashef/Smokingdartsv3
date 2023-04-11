@@ -22,7 +22,19 @@ def capture_image(camera, image_name, path):
     camera.release()
     print(image_name + " captured!")
 
-
+def distort_calib(img):
+    dist = np.loadtxt('dist_matrix.txt', dtype= float)
+    mtx = np.loadtxt('cam_matrix.txt', dtype=float )
+    
+    h,  w = img.shape[:2]
+    newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
+    
+    dst = cv2.undistort(img, mtx, dist, None, newcameramtx)
+    # crop the image
+    x, y, w, h = roi
+    #dst = dst[y:y+h, x:x+w]
+    
+    return dst
 
 def show_diff_image(imageA, imageB):
     
@@ -31,39 +43,42 @@ def show_diff_image(imageA, imageB):
     grayA = cv2.cvtColor(imageA, cv2.COLOR_RGB2GRAY)
     grayB = cv2.cvtColor(imageB, cv2.COLOR_RGB2GRAY)
     
+    #grayA = distort_calib(grayA)
+    #grayB = distort_calib(grayB)
+    
+    
     (score, diff) = compare_ssim(grayA, grayB, gradient_method = 'gaussian', full=True)
-    #diff = cv2.absdiff(grayA, grayB)
+    
     diff = (diff * 255).astype("uint8")
 
-    #thresh = cv2.threshold(diff, 180, 255, cv2.THRESH_OTSU)[1]
-    #thresh = cv2.threshold(diff, 150, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+    
     thresh = cv2.adaptiveThreshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 185, 75)
 
     kernel = np.ones((3, 3), np.uint8)
-    thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=1)
+    thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=2)
     
-    #thresh[800:] = 255
+    
     thresh[:40] = 255
     
-    edge = cv2.Canny(thresh, 250, 300)
+    edge = cv2.Canny(thresh, 100, 250)
     ctrs, hier = cv2.findContours(edge, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     
-    plt.imshow(diff, cmap='gray')
-    plt.show()
+    #plt.imshow(diff, cmap='gray')
+    #plt.show()
 
     plt.imshow(edge, cmap='gray')
     plt.show()
     
     #plt.imshow(edge, cmap='gray')
-    #cv2.drawContours(edge, ctrs, -1, (0,255,0), 3)
+    
     ctr = max(ctrs, key = len)
-    #print(ctr)
+    
     ctr_ind = (np.argmax([xy[0][1] for xy in ctr]))
     
-    #print(ctr[ctr_ind])
+    
 
-    #diff = cv2.subtract(grayA, grayB)
-    #diff = cv2.threshold(diff, 30, 150, cv2.THRESH_BINARY_INV)[1]
+    
+    
     
     end_time = time.time()
     
@@ -99,7 +114,21 @@ if __name__ == "__main__":
     
         #### Impact sensor setup ####
         
+        board_flag=False
+        dir_path = "/dev/"
+        files = os.listdir(dir_path)
+        files = [f for f in files if f.startswith('/dev/ttyACM')]
         board = pyfirmata.Arduino('/dev/ttyACM0')
+        for file in files:
+            if file.endswith('0'):
+                board = pyfirmata.Arduino('/dev/ttyACM0')
+                board_flag = True
+            elif file.endwith('1'):
+                board = pyfirmata.Arduino('/dev/ttyACM1')
+                board_flag = True
+        if board_flag == False:
+            print("impact sensor not detected")
+            
         KNOCK_SENSOR = "A0"
         THRESHOLD = .1
         sensor_reading = 0
@@ -136,7 +165,7 @@ if __name__ == "__main__":
             if sensor_reading is not None:
                 if sensor_reading >= THRESHOLD:
                     break
-            time.sleep(0.1)
+            
 
         
         #  Reinitialize camera objectsCapture images of dartboard with dart
