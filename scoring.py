@@ -35,14 +35,12 @@ if __name__ == "__main__":
     MQTT_SERVER = "broker.emqx.io"  # Address for the server that hosts the broker
     authentications = {'username': "kdyer", 'password': "Green82"}  # Username and password for sending the data
 
+    # initialize cameras
+    camX = Camera(0, image_path)
+    camY = Camera(2, image_path)
     
     while True: 
-        input("Press enter to capture intiate program: ")
-
-        # initialize cameras
-        camX = Camera(0, image_path)
-        camY = Camera(2, image_path)
-
+        input("Press enter to capture initial images: ")
 
         # capture initial images
         camX.capture_image(image_path + "/image_nodartX")
