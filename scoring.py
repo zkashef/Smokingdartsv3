@@ -11,8 +11,12 @@ import paho.mqtt.publish as publish
 import atexit
 
 def release_cameras(camX, camY):
-    camX.cam.release()
-    camY.cam.release()
+    try:
+        camX.cam.release()
+        camY.cam.release()
+        print("Cameras released")
+    except:
+        print("Cameras unable to be released")
 
 
 if __name__ == "__main__":
@@ -57,8 +61,10 @@ if __name__ == "__main__":
         camX.capture_image(image_path + "/image_nodartX")
         camY.capture_image(image_path + "/image_nodartY")
         
+
         
         ##### Wait for impact #####
+        print("Waiting for impact...")
         while True:
             sensor_reading = board.analog[0].read()
             #print(sensor_reading)
