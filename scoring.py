@@ -54,8 +54,8 @@ if __name__ == "__main__":
         print("Gotta reboot or something to release those camera objects :/")
         exit()
     
-    option = True
-    while option: 
+    option = 1
+    while option==1: 
 
         # capture initial images
         camX.capture_image(image_path + "/image_nodartX")
