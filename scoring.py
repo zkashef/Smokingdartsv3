@@ -8,9 +8,17 @@ from camera import *
 # import libraries
 import pyfirmata
 import paho.mqtt.publish as publish
+import atexit
+
+def release_cameras():
+    camX.cam.release()
+    camY.cam.release()
 
 
 if __name__ == "__main__":
+
+    # release cameras when program exits
+    atexit.register(release_cameras)
 
     # set directory paths
     cur_dir = os.getcwd()
@@ -121,5 +129,4 @@ if __name__ == "__main__":
 
         option = input("1 to run program again, 0 to exit: ")
 
-    camX.cam.release()
-    camY.cam.release()
+   
