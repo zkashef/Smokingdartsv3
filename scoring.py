@@ -10,15 +10,12 @@ import pyfirmata
 import paho.mqtt.publish as publish
 import atexit
 
-def release_cameras():
+def release_cameras(camX, camY):
     camX.cam.release()
     camY.cam.release()
 
 
 if __name__ == "__main__":
-
-    # release cameras when program exits
-    atexit.register(release_cameras)
 
     # set directory paths
     cur_dir = os.getcwd()
@@ -47,6 +44,8 @@ if __name__ == "__main__":
     try:
         camX = Camera(0, image_path)
         camY = Camera(2, image_path)
+        # release cameras when program exits
+        atexit.register(release_cameras, camX, camY)
     except:
         print("Gotta reboot or something to release those camera objects :/")
         exit()
