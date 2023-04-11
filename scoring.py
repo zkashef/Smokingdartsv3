@@ -39,8 +39,9 @@ if __name__ == "__main__":
     camX = Camera(0, image_path)
     camY = Camera(2, image_path)
     
-    while True: 
-        input("Press enter to capture initial images: ")
+    option = True
+    while option: 
+        option = input("Press enter to capture initial images (0 to exit): ")
 
         # capture initial images
         camX.capture_image(image_path + "/image_nodartX")
@@ -105,3 +106,5 @@ if __name__ == "__main__":
         leg_Cam2_Dart = ax.axline((x2, y2), slope = camX.slope2)
         ax.plot(x_dart, y_dart)
         plt.show()
+
+
