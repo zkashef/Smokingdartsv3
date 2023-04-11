@@ -71,7 +71,6 @@ if __name__ == "__main__":
             if sensor_reading is not None:
                 if sensor_reading >= THRESHOLD:
                     break
-            time.sleep(0.1)
 
 
         # capture final images
