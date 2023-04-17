@@ -176,19 +176,21 @@ class Camera():
         
         thresh = cv2.threshold(diff, 200, 255, cv2.THRESH_OTSU)[1]
         
-        #kernel = np.ones((3, 3), np.uint8)
-        #thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=2)
+        kernel = np.ones((3, 3), np.uint8)
+        thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=1)
         
         #thresh[:40] = 255
         
         # perform canny edge detection
-        edge = cv2.Canny(thresh, 150, 300)
+        edge = cv2.Canny(thresh, 250, 300)
         ctrs, hier = cv2.findContours(edge, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         
         # display images
         plt.imshow(diff, cmap='gray')
         plt.show()
         plt.imshow(thresh, cmap='gray')
+        plt.show()
+        plt.imshow(edge, cmap='gray')
         plt.show()
         
         # find coordinates of dart tip in canny edge image
