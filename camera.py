@@ -172,14 +172,14 @@ class Camera():
         # remove noise with erosion and dilation
         #thresh = cv2.threshold(diff, 180, 255, cv2.THRESH_OTSU)[1]
         #thresh = cv2.threshold(diff, 150, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-        thresh = cv2.adaptiveThreshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 147, 67)
+        """thresh = cv2.adaptiveThreshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 147, 67)
         kernel = np.ones((3, 3), np.uint8)
-        thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=2)
+        thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=2)"""
         
         #thresh[:40] = 255
         
         # perform canny edge detection
-        edge = cv2.Canny(thresh, 150, 300)
+        edge = cv2.Canny(diff, 150, 300)
         ctrs, hier = cv2.findContours(edge, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         
         # display images
