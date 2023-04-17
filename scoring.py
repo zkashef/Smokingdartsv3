@@ -77,9 +77,9 @@ if __name__ == "__main__":
 
             # capture initial images
             img = camX.capture_image(image_path + "/image_nodartX")
-            display_image(img)
+            #display_image(img)
             img = camY.capture_image(image_path + "/image_nodartY")
-            display_image(img)
+            #display_image(img)
             
             ##### Wait for impact #####
             print("Waiting for impact...")
@@ -94,9 +94,9 @@ if __name__ == "__main__":
 
             # capture final images
             img = camX.capture_image(image_path + "/image_dartX")
-            display_image(img)
+            #display_image(img)
             img = camY.capture_image(image_path + "/image_dartY")
-            display_image(img)
+            #display_image(img)
             
             # capture time it takes to release cameras
             start_time = time.time()
