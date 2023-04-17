@@ -19,7 +19,7 @@ def release_cameras(camX, camY):
         print("Cameras unable to be released")
     return
 
-def initalize_cameras():
+def initalize_cameras(image_path):
     # initialize cameras
     try:
         camX = Camera(0, image_path)
@@ -67,7 +67,7 @@ if __name__ == "__main__":
         
         option = 1
         while option==1: 
-            camX, camY = initalize_cameras()
+            camX, camY = initalize_cameras(image_path)
 
             # capture initial images
             img = camX.capture_image(image_path + "/image_nodartX")
@@ -83,7 +83,8 @@ if __name__ == "__main__":
                 if sensor_reading is not None:
                     if sensor_reading >= THRESHOLD:
                         break
-
+            
+            time.sleep(1)
 
             # capture final images
             img = camX.capture_image(image_path + "/image_dartX")
