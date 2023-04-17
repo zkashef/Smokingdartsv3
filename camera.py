@@ -143,8 +143,7 @@ class Camera():
         
         #cv2.normalize(img, img, 0, 255, cv2.NORM_MINMAX)
         image_name += ".jpeg"
-        while self.cam.grab():
-            pass
+        self.cam.read()
         ret, img = self.cam.read() # Read an image from camera
         cv2.imwrite(os.path.join(self.image_path, image_name), img)
         print(image_name.split("/")[-1] + " captured!")
