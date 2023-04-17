@@ -33,16 +33,15 @@ def initalize_cameras(image_path):
 
 def display_image(img):
     image_height, image_width, channels = img.shape
-    # use cv2 to display image with red vertical line through center of image
-    cv2.line(img, (int(image_width/2), 0), (int(image_width/2), image_height), (0, 0, 255), 2)
-    cv2.imshow('image', img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # # use cv2 to display image with red vertical line through center of image
+    # cv2.line(img, (int(image_width/2), 0), (int(image_width/2), image_height), (0, 0, 255), 2)
+    # cv2.imshow('image', img)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
-
-    # plt.imshow(img)
-    # plt.plot([int(image_width/2), int(image_width/2)], [0, image_height], 'r-')
-    # plt.show()
+    plt.imshow(img)
+    plt.plot([int(image_width/2), int(image_width/2)], [0, image_height], 'r-')
+    plt.show()
     return
     
 
