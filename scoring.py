@@ -76,6 +76,11 @@ if __name__ == "__main__":
             camX.capture_image(image_path + "/image_dartX")
             camY.capture_image(image_path + "/image_dartY")
 
+            # capture time it takes to release cameras
+            start_time = time.time()
+            release_cameras(camX, camY)
+            end_time = time.time()
+            print("Time to release cameras: ", end_time - start_time)
 
             # get dart tip coordinates from images
             image_coordinates = camX.get_image_coordinates()
