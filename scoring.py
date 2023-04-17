@@ -17,7 +17,20 @@ def release_cameras(camX, camY):
         print("Cameras released")
     except:
         print("Cameras unable to be released")
+    return
 
+def initalize_cameras():
+    # initialize cameras
+    try:
+        camX = Camera(0, image_path)
+        camY = Camera(2, image_path)
+        # release cameras when program exits
+        atexit.register(release_cameras, camX, camY)
+        return  camX, camY
+    except:
+        print("Gotta reboot or something to release those camera objects :/")
+        exit()
+    
 
 if __name__ == "__main__":
     try:
@@ -44,18 +57,10 @@ if __name__ == "__main__":
         MQTT_SERVER = "broker.emqx.io"  # Address for the server that hosts the broker
         authentications = {'username': "kdyer", 'password': "Green82"}  # Username and password for sending the data
 
-        # initialize cameras
-        try:
-            camX = Camera(0, image_path)
-            camY = Camera(2, image_path)
-            # release cameras when program exits
-            atexit.register(release_cameras, camX, camY)
-        except:
-            print("Gotta reboot or something to release those camera objects :/")
-            exit()
         
         option = 1
         while option==1: 
+            camX, camY = initalize_cameras()
 
             # capture initial images
             camX.capture_image(image_path + "/image_nodartX")

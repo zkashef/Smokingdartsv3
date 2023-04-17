@@ -146,7 +146,9 @@ class Camera():
         print(image_name + " captured!")
         # show image with a vertical red line through the center of the image using plt
         self.image_height, self.image_width, channels = img.shape
-        print("Showing image:", image_name)
+        print("Showing image:", image_name.split("/")[-1])
+        # print the time the file was created
+        print("File created at:", time.ctime(os.path.getctime(os.path.join(self.image_path, image_name))))      
         plt.imshow(img)
         plt.plot([int(self.image_width/2), int(self.image_width/2)], [0, self.image_height], 'r-')
         plt.show()
