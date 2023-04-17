@@ -140,11 +140,14 @@ class Camera():
 
     # capture image and save to image_path
     def capture_image(self, image_name):
-        ret, img = self.cam.read() # Read an image from camera
+        
         #cv2.normalize(img, img, 0, 255, cv2.NORM_MINMAX)
         image_name += ".jpeg"
+        while self.cam.grab():
+            pass
+        ret, img = self.cam.read() # Read an image from camera
         cv2.imwrite(os.path.join(self.image_path, image_name), img)
-        print(image_name + " captured!")
+        print(image_name.split("/")[-1] + " captured!")
         # show image with a vertical red line through the center of the image using plt
         # self.image_height, self.image_width, channels = img.shape
         # print("Showing image:", image_name.split("/")[-1])
