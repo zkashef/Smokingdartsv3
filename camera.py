@@ -16,6 +16,7 @@ class Camera():
         self.cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
         self.cam.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
         self.cam.set(cv2.CAP_PROP_EXPOSURE, 50)
+        self.cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
         self.image_path = path
         self.image_width = 0 # gets set in load_images()
