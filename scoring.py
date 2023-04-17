@@ -30,6 +30,13 @@ def initalize_cameras():
     except:
         print("Gotta reboot or something to release those camera objects :/")
         exit()
+
+def display_image(img):
+    image_height, image_width, channels = img.shape
+    plt.imshow(img)
+    plt.plot([int(image_width/2), int(image_width/2)], [0, image_height], 'r-')
+    plt.show()
+    return
     
 
 if __name__ == "__main__":
@@ -63,9 +70,10 @@ if __name__ == "__main__":
             camX, camY = initalize_cameras()
 
             # capture initial images
-            camX.capture_image(image_path + "/image_nodartX")
-            camY.capture_image(image_path + "/image_nodartY")
-
+            img = camX.capture_image(image_path + "/image_nodartX")
+            display_image(img)
+            img = camY.capture_image(image_path + "/image_nodartY")
+            display_image(img)
             
             ##### Wait for impact #####
             print("Waiting for impact...")
@@ -78,9 +86,11 @@ if __name__ == "__main__":
 
 
             # capture final images
-            camX.capture_image(image_path + "/image_dartX")
-            camY.capture_image(image_path + "/image_dartY")
-
+            img = camX.capture_image(image_path + "/image_dartX")
+            display_image(img)
+            img = camY.capture_image(image_path + "/image_dartY")
+            display_image(img)
+            
             # capture time it takes to release cameras
             start_time = time.time()
             release_cameras(camX, camY)
