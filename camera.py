@@ -177,7 +177,7 @@ class Camera():
         thresh = cv2.threshold(diff, 200, 255, cv2.THRESH_OTSU)[1]
         
         kernel = np.ones((9, 9), np.uint8)
-        thresh = cv2.morphologyEx(thresh, cv2.MORPH_ERODE, kernel, iterations=1)
+        thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations=1)
         
         #thresh[:40] = 255
         
