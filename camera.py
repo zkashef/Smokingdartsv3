@@ -8,6 +8,10 @@ import matplotlib.pyplot as plt
 import math
 
 
+
+
+
+
 class Camera():
     def __init__(self, usb_index, path, fov=110, no_camera=False):
         self.image_path = path
@@ -173,6 +177,19 @@ class Camera():
         # create difference image
         grayA = cv2.cvtColor(imageA, cv2.COLOR_RGB2GRAY)
         grayB = cv2.cvtColor(imageB, cv2.COLOR_RGB2GRAY)
+
+        #apply distortion and radial matrix to images:
+
+        mtx = np.loadtxt('cam_matrix.txt')
+        dist = np.loadtxt('dist_matrix.txt')
+        grayA = cv2.undistort(grayA, mtx, dist)
+        grayB = cv2.undistort(grayB, mtx, dist)
+
+        cv2.imshow(grayA, cmap='gray')
+        cv2.imshow(grayB, cmap='gray')
+
+        
+
         (score, diff) = compare_ssim(grayA, grayB, full=True)
         #diff = cv2.subtract(grayA, grayB)
         diff = (diff * 255).astype("uint8")
