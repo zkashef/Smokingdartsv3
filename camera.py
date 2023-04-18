@@ -8,10 +8,6 @@ import matplotlib.pyplot as plt
 import math
 
 
-
-
-
-
 class Camera():
     def __init__(self, usb_index, path, fov=110, no_camera=False):
         self.image_path = path
@@ -185,10 +181,12 @@ class Camera():
         grayA = cv2.undistort(grayA, mtx, dist)
         grayB = cv2.undistort(grayB, mtx, dist)
 
-        cv2.imshow(grayA, cmap='gray')
-        cv2.imshow(grayB, cmap='gray')
+        plt.imshow(grayA, cmap='gray')
+        plt.show()
+        plt.imshow(grayB, cmap='gray')
+        plt.show()
 
-        
+
 
         (score, diff) = compare_ssim(grayA, grayB, full=True)
         #diff = cv2.subtract(grayA, grayB)
