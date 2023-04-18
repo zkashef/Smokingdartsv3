@@ -180,15 +180,15 @@ class Camera():
         dist = np.loadtxt('dist_matrix.txt')
 
         h,  w = grayA.shape[:2]
-        newcameramtxA, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
-        grayA = cv2.undistort(grayA, mtx, dist)
+        newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
+        grayA = cv2.undistort(grayA, mtx, dist, None, newcameramtx)
         x, y, w, h = roi
         grayA = grayA[y:y+h, x:x+w]
 
         
         h,  w = grayB.shape[:2]
-        newcameramtxA, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
-        grayB = cv2.undistort(grayB, mtx, dist)
+        newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
+        grayB = cv2.undistort(grayB, mtx, dist, None, newcameramtx)
         x, y, w, h = roi
         grayB = grayB[y:y+h, x:x+w]
         
