@@ -9,7 +9,15 @@ import math
 
 
 class Camera():
-    def __init__(self, usb_index, path, fov=110):
+    def __init__(self, usb_index, path, fov=110, no_camera=False):
+        self.image_path = path
+        self.image_width = 0 # gets set in load_images()
+        self.fov = fov # degrees
+        self.no_camera = no_camera
+        if no_camera:
+            self.cam = None
+            return
+        
         # initialize camera objects and capture images of dartboard with no dart
         self.cam = cv2.VideoCapture(usb_index) # First camera connected to USB port usb_index
         self.cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
@@ -18,9 +26,7 @@ class Camera():
         self.cam.set(cv2.CAP_PROP_EXPOSURE, 50)
         self.cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
-        self.image_path = path
-        self.image_width = 0 # gets set in load_images()
-        self.fov = fov # degrees
+
     
 
     # Determine Score of throw
@@ -176,7 +182,7 @@ class Camera():
         
         thresh = cv2.threshold(diff, 200, 255, cv2.THRESH_OTSU)[1]
         
-        kernel = np.ones((9, 9), np.uint8)
+        kernel = np.ones((11, 11), np.uint8)
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations=1)
         
         #thresh[:40] = 255
