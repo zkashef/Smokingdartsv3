@@ -166,6 +166,10 @@ class Camera():
     def get_image_coordinate(self, imageA, imageB):
         start_time = time.time()
         
+        # crop top 1/5 of images
+        imageA = imageA[int(self.image_height/5):self.image_height, 0:self.image_width]
+        imageB = imageB[int(self.image_height/5):self.image_height, 0:self.image_width]
+
         # create difference image
         grayA = cv2.cvtColor(imageA, cv2.COLOR_RGB2GRAY)
         grayB = cv2.cvtColor(imageB, cv2.COLOR_RGB2GRAY)
