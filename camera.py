@@ -192,10 +192,10 @@ class Camera():
         # #grayB = grayB[y:y+h, x:x+w]
         
 
-        plt.imshow(grayA, cmap='gray')
-        plt.show()
-        plt.imshow(grayB, cmap='gray')
-        plt.show()
+        # plt.imshow(grayA, cmap='gray')
+        # plt.show()
+        # plt.imshow(grayB, cmap='gray')
+        # plt.show()
 
 
 
