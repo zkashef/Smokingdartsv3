@@ -33,12 +33,6 @@ def initalize_cameras(image_path):
 
 def display_image(img):
     image_height, image_width, channels = img.shape
-    # # use cv2 to display image with red vertical line through center of image
-    # cv2.line(img, (int(image_width/2), 0), (int(image_width/2), image_height), (0, 0, 255), 2)
-    # cv2.imshow('image', img)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
-
     plt.imshow(img)
     plt.plot([int(image_width/2), int(image_width/2)], [0, image_height], 'r-')
     plt.show()
@@ -77,9 +71,9 @@ if __name__ == "__main__":
 
             # capture initial images
             img = camX.capture_image(image_path + "/image_nodartX")
-            #display_image(img)
+            display_image(img)
             img = camY.capture_image(image_path + "/image_nodartY")
-            #display_image(img)
+            display_image(img)
             
             ##### Wait for impact #####
             print("Waiting for impact...")
@@ -94,9 +88,9 @@ if __name__ == "__main__":
 
             # capture final images
             img = camX.capture_image(image_path + "/image_dartX")
-            #display_image(img)
+            display_image(img)
             img = camY.capture_image(image_path + "/image_dartY")
-            #display_image(img)
+            display_image(img)
             
             # capture time it takes to release cameras
             start_time = time.time()
