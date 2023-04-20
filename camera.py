@@ -174,23 +174,22 @@ class Camera():
         grayA = cv2.cvtColor(imageA, cv2.COLOR_RGB2GRAY)
         grayB = cv2.cvtColor(imageB, cv2.COLOR_RGB2GRAY)
 
-        #apply distortion and radial matrix to images:
+        # #apply distortion and radial matrix to images:
+        # mtx = np.loadtxt('cam_matrix.txt')
+        # dist = np.loadtxt('dist_matrix.txt')
 
-        mtx = np.loadtxt('cam_matrix.txt')
-        dist = np.loadtxt('dist_matrix.txt')
-
-        h,  w = grayA.shape[:2]
-        newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
-        grayA = cv2.undistort(grayA, mtx, dist, None, newcameramtx)
-        x, y, w, h = roi
-        #grayA = grayA[y:y+h, x:x+w]
+        # h,  w = grayA.shape[:2]
+        # newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
+        # grayA = cv2.undistort(grayA, mtx, dist, None, newcameramtx)
+        # x, y, w, h = roi
+        # #grayA = grayA[y:y+h, x:x+w]
 
         
-        h,  w = grayB.shape[:2]
-        newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
-        grayB = cv2.undistort(grayB, mtx, dist, None, newcameramtx)
-        x, y, w, h = roi
-        #grayB = grayB[y:y+h, x:x+w]
+        # h,  w = grayB.shape[:2]
+        # newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
+        # grayB = cv2.undistort(grayB, mtx, dist, None, newcameramtx)
+        # x, y, w, h = roi
+        # #grayB = grayB[y:y+h, x:x+w]
         
 
         plt.imshow(grayA, cmap='gray')
