@@ -51,13 +51,13 @@ if __name__ == "__main__":
 
 
         # initialize impact sensor on Arduino
-        board = pyfirmata.Arduino('/dev/ttyACM0')
+        """board = pyfirmata.Arduino('/dev/ttyACM0')
         KNOCK_SENSOR = "A0"
         THRESHOLD = .1
         sensor_reading = 0
         it = pyfirmata.util.Iterator(board)
         it.start()
-        board.analog[0].mode = pyfirmata.INPUT
+        board.analog[0].mode = pyfirmata.INPUT"""
 
 
         # initialize MQTT server
@@ -71,26 +71,28 @@ if __name__ == "__main__":
 
             # capture initial images
             img = camX.capture_image(image_path + "/image_nodartX")
-            display_image(img)
+            #display_image(img)
             img = camY.capture_image(image_path + "/image_nodartY")
-            display_image(img)
+            #display_image(img)
             
             ##### Wait for impact #####
-            print("Waiting for impact...")
+            """print("Waiting for impact...")
             while True:
                 sensor_reading = board.analog[0].read()
                 #print(sensor_reading)
                 if sensor_reading is not None:
                     if sensor_reading >= THRESHOLD:
-                        break
+                        break"""
+            
+            input("Enter when impact")
             
             
 
             # capture final images
             img = camX.capture_image(image_path + "/image_dartX")
-            display_image(img)
+            #display_image(img)
             img = camY.capture_image(image_path + "/image_dartY")
-            display_image(img)
+            #display_image(img)
             
             # capture time it takes to release cameras
             start_time = time.time()
