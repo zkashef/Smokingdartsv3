@@ -9,7 +9,7 @@ import math
 
 
 class Camera():
-    def __init__(self, usb_index, path, fov=110, no_camera=False):
+    def __init__(self, usb_index, path, fov=90, no_camera=False):
         self.image_path = path
         self.image_width = 0 # gets set in load_images()
         self.fov = fov # degrees
@@ -121,7 +121,7 @@ class Camera():
         return x_dart, y_dart
 
     # compute angles from camera to dart
-    def compute_angles(self, coordinates, fov=110):
+    def compute_angles(self, coordinates, fov=90):
         angle = [0, 0]
         angle[0] = coordinates[0] / self.image_width * fov
         angle[1] = coordinates[1] / self.image_width * fov
