@@ -167,8 +167,8 @@ class Camera():
         start_time = time.time()
         
         # crop top 1/5 of images
-        imageA = imageA[int(self.image_height/5):self.image_height, 0:self.image_width]
-        imageB = imageB[int(self.image_height/5):self.image_height, 0:self.image_width]
+        #imageA = imageA[int(self.image_height/5):self.image_height, 0:self.image_width]
+        #imageB = imageB[int(self.image_height/5):self.image_height, 0:self.image_width]
 
         # create difference image
         grayA = cv2.cvtColor(imageA, cv2.COLOR_RGB2GRAY)
