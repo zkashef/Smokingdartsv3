@@ -29,11 +29,12 @@ def show_diff_image(imageA, imageB):
     grayB = cv2.cvtColor(imageB, cv2.COLOR_RGB2GRAY)
     
     (score, diff) = compare_ssim(grayA, grayB, full=True)
-    #diff = cv2.subtract(grayA, grayB)
     diff = (diff * 255).astype("uint8")
 
-    #thresh = cv2.threshold(diff, 180, 255, cv2.THRESH_OTSU)[1]
-    #thresh = cv2.threshold(diff, 150, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+
+
+    """thresh = cv2.threshold(diff, 180, 255, cv2.THRESH_OTSU)[1]
+    thresh = cv2.threshold(diff, 150, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]"""
     thresh = cv2.adaptiveThreshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 157, 87)
 
     kernel = np.ones((3, 3), np.uint8)
@@ -51,16 +52,10 @@ def show_diff_image(imageA, imageB):
     plt.imshow(edge, cmap='gray')
     plt.show()
     
-    #plt.imshow(edge, cmap='gray')
-    #cv2.drawContours(edge, ctrs, -1, (0,255,0), 3)
-    ctr = max(ctrs, key = len)
-    #print(ctr)
-    ctr_ind = (np.argmax([xy[0][1] for xy in ctr]))
     
-    #print(ctr[ctr_ind])
-
-    #diff = cv2.subtract(grayA, grayB)
-    #diff = cv2.threshold(diff, 30, 150, cv2.THRESH_BINARY_INV)[1]
+    
+    ctr = max(ctrs, key = len)
+    ctr_ind = (np.argmax([xy[0][1] for xy in ctr]))
     return (ctr[ctr_ind])[0][0]
 
 
