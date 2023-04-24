@@ -128,7 +128,9 @@ class Camera():
         return angle
     
     def dist_calib(x, y):
-        coeffs = np.array([-6.28291918e-06,  4.02271976e-11, -5.87981461e-17, -1.49322602e-04, -2.19133315e-05])
+        coeffs = np.array([-1.16872310e-06,  5.39767230e-12, -6.77448104e-18, -8.43505986e-06, -1.01073783e-04])
+
+        
         k1 = coeffs[0]
         k2 = coeffs[1]
         k3 = coeffs[2]
