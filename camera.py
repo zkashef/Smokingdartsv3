@@ -137,13 +137,13 @@ class Camera():
         right_x_coordinate, right_y_coordinate = self.get_image_coordinate(image_dartX, image_nodartX)
         print("right-side x-pixel_cor: " + str(right_x_coordinate))
         print("right-side y-pixel_cor: " + str(right_y_coordinate))
-        right_xu = dist_calib(right_x_coordinate, right_y_coordinate)
+        right_xu = self.dist_calib(right_x_coordinate, right_y_coordinate)
         print("corrected right-side x_pixel: " + right_xu)
 
         top_x_coordinate, top_y_coordinate = self.get_image_coordinate(image_dartY, image_nodartY)
         print("top-side x-pixel_cor: " + str(top_x_coordinate))
         print("top-side y-pixel_cor: " + str(top_y_coordinate))
-        top_xu = dist_calib(top_x_coordinate, top_y_coordinate)
+        top_xu = self.dist_calib(top_x_coordinate, top_y_coordinate)
         print("corrected top-side x_pixel: " + top_xu)
         coordinates = [right_xu, top_xu]
         return coordinates
@@ -223,7 +223,7 @@ class Camera():
 
 
 
-    def dist_calib(x, y):
+    def dist_calib(self, x, y):
         coeffs = np.array([-1.16872310e-06,  5.39767230e-12, -6.77448104e-18, -8.43505986e-06, -1.01073783e-04])
 
         
