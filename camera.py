@@ -127,6 +127,20 @@ class Camera():
         angle[1] = coordinates[1] / self.image_width * fov
         return angle
     
+    def dist_calib(x, y):
+        coeffs = np.array([-6.28291918e-06,  4.02271976e-11, -5.87981461e-17, -1.49322602e-04, -2.19133315e-05])
+        k1 = coeffs[0]
+        k2 = coeffs[1]
+        k3 = coeffs[2]
+        p1 = coeffs[3]
+        p2 = coeffs[4]
+        x_diff = x - 960
+        y_diff = y - 540
+        r = math.sqrt(x_diff**2 + y_diff**2)
+
+        xu = x + x_diff*r**2 * k1 + x_diff*r**4 * k2 + x_diff*r**6 * k3 + (r**2 + 2*(x_diff)**2) * p1 + 2*x_diff*y_diff*p2
+        return xu
+    
     
     # return both x and y coordinates of dart from image
     def get_image_coordinates(self):
@@ -134,11 +148,18 @@ class Camera():
         image_nodartX, image_nodartY, image_dartX, image_dartY = self.load_images()
    
         # create diff images, canny images, and coordinates of dart
-        x_coordinate = self.get_image_coordinate(image_dartX, image_nodartX)
-        print("x-pixel_cor: " + str(x_coordinate))
-        y_coordinate = self.get_image_coordinate(image_dartY, image_nodartY)
-        print("x-pixel_cor: " + str(y_coordinate))
-        coordinates = [x_coordinate, y_coordinate]
+        right_x_coordinate, right_y_coordinate = self.get_image_coordinate(image_dartX, image_nodartX)
+        print("right-side x-pixel_cor: " + str(right_x_coordinate))
+        print("right-side y-pixel_cor: " + str(right_y_coordinate))
+        right_xu = dist_calib(right_x_coordinate, right_y_coordinate))
+        print("corrected right-side x_pixel: " + right_xu)
+
+        top_x_coordinate, top_y_coordinate = self.get_image_coordinate(image_dartY, image_nodartY)
+        print("top-side x-pixel_cor: " + str(top_x_coordinate))
+        print("top-side y-pixel_cor: " + str(top_y_coordinate))
+        top_xu = dist_calib(top_x_coordinate, top_y_coordinate)
+        print("corrected top-side x_pixel: " + top_xu)
+        coordinates = [right_xu, top_xu]
         return coordinates
 
 
@@ -174,23 +195,6 @@ class Camera():
         grayA = cv2.cvtColor(imageA, cv2.COLOR_RGB2GRAY)
         grayB = cv2.cvtColor(imageB, cv2.COLOR_RGB2GRAY)
 
-        # #apply distortion and radial matrix to images:
-        # mtx = np.loadtxt('cam_matrix.txt')
-        # dist = np.loadtxt('dist_matrix.txt')
-
-        # h,  w = grayA.shape[:2]
-        # newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
-        # grayA = cv2.undistort(grayA, mtx, dist, None, newcameramtx)
-        # x, y, w, h = roi
-        # #grayA = grayA[y:y+h, x:x+w]
-
-        
-        # h,  w = grayB.shape[:2]
-        # newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w,h), 1, (w,h))
-        # grayB = cv2.undistort(grayB, mtx, dist, None, newcameramtx)
-        # x, y, w, h = roi
-        # #grayB = grayB[y:y+h, x:x+w]
-        
 
         # plt.imshow(grayA, cmap='gray')
         # plt.show()
@@ -203,10 +207,6 @@ class Camera():
         #diff = cv2.subtract(grayA, grayB)
         diff = (diff * 255).astype("uint8")
 
-        # remove noise with erosion and dilation
-        #thresh = cv2.threshold(diff, 180, 255, cv2.THRESH_OTSU)[1]
-        #thresh = cv2.threshold(diff, 150, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-        #thresh = cv2.adaptiveThreshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 147, 67)
         
         thresh = cv2.threshold(diff, 200, 255, cv2.THRESH_OTSU)[1]
         
@@ -214,7 +214,7 @@ class Camera():
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations=1)
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_ERODE, kernel, iterations=2)
         
-        #thresh[:40] = 255
+        
         
         # perform canny edge detection
         edge = cv2.Canny(thresh, 250, 300)
@@ -225,14 +225,14 @@ class Camera():
         plt.show()
         # plt.imshow(thresh, cmap='gray')
         # plt.show()
-        # plt.imshow(edge, cmap='gray')
-        # plt.show()
+        plt.imshow(edge, cmap='gray')
+        plt.show()
         
         # find coordinates of dart tip in canny edge image
         ctr = max(ctrs, key = len)
         ctr_ind = (np.argmax([xy[0][1] for xy in ctr]))
         
         print("Image processing time: " + str(time.time()-start_time))
-        return (ctr[ctr_ind])[0][0]
+        return ((ctr[ctr_ind])[0][0], ctr[ctr_ind][0][1])  ### returns x and y
 
 
