@@ -153,7 +153,7 @@ class Camera():
         right_x_coordinate, right_y_coordinate = self.get_image_coordinate(image_dartX, image_nodartX)
         print("right-side x-pixel_cor: " + str(right_x_coordinate))
         print("right-side y-pixel_cor: " + str(right_y_coordinate))
-        right_xu = dist_calib(right_x_coordinate, right_y_coordinate))
+        right_xu = dist_calib(right_x_coordinate, right_y_coordinate)
         print("corrected right-side x_pixel: " + right_xu)
 
         top_x_coordinate, top_y_coordinate = self.get_image_coordinate(image_dartY, image_nodartY)
