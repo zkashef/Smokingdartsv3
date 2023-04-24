@@ -138,13 +138,13 @@ class Camera():
         print("right-side x-pixel_cor: " + str(right_x_coordinate))
         print("right-side y-pixel_cor: " + str(right_y_coordinate))
         right_xu = self.dist_calib(right_x_coordinate, right_y_coordinate)
-        print("corrected right-side x_pixel: " + right_xu)
+        print("corrected right-side x_pixel: " + str(right_xu))
 
         top_x_coordinate, top_y_coordinate = self.get_image_coordinate(image_dartY, image_nodartY)
         print("top-side x-pixel_cor: " + str(top_x_coordinate))
         print("top-side y-pixel_cor: " + str(top_y_coordinate))
         top_xu = self.dist_calib(top_x_coordinate, top_y_coordinate)
-        print("corrected top-side x_pixel: " + top_xu)
+        print("corrected top-side x_pixel: " + str(top_xu))
         coordinates = [right_xu, top_xu]
         return coordinates
 
