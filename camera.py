@@ -198,7 +198,7 @@ class Camera():
         
         kernel = np.ones((11, 11), np.uint8)
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations=1)
-        thresh = cv2.morphologyEx(thresh, cv2.MORPH_ERODE, kernel, iterations=1)
+        thresh = cv2.morphologyEx(thresh, cv2.MORPH_ERODE, kernel, iterations=14)
         
         
         
@@ -215,7 +215,7 @@ class Camera():
         plt.show()
         
         # find coordinates of dart tip in canny edge image
-        ctr = max(ctrs, key = len)
+        ctr = max(ctrs, key = lambda ctr: len(ctr) * max(ctr, key=lambda x: x[1]) - min(ctr, key=lambda x: x[1]))
         ctr_ind = (np.argmax([xy[0][1] for xy in ctr]))
         
         print("Image processing time: " + str(time.time()-start_time))
