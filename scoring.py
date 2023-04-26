@@ -22,8 +22,8 @@ def release_cameras(camX, camY):
 def initalize_cameras(image_path):
     # initialize cameras
     try:
-        camY = Camera(0, image_path)
-        camX = Camera(2, image_path)
+        camY = Camera(2, image_path)
+        camX = Camera(0, image_path)
         # release cameras when program exits
         atexit.register(release_cameras, camX, camY)
         return  camX, camY
