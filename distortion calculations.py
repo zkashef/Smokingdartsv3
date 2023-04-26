@@ -82,15 +82,15 @@ p2 = coeff[4]
 
 
 
-test_x_diff = 1072 - center[0] 
+test_x_diff =  - center[0] 
 test_y_diff = 604 - center[1]
 test_r = math.sqrt(test_x_diff**2 + test_y_diff**2)
 
 xu_pred = 1072 + test_x_diff*test_r**2 * k1 + test_x_diff*test_r**4 * k2 + test_x_diff*test_r**6 * k3 + (test_r**2 + 2*(test_x_diff)**2) * p1 + 2*test_x_diff*test_y_diff*p2
 
 
-x = -47
-y= 23
+x = 81
+y= 90
 angle = math.atan((y-ycam)/(abs(x-xcam))) * 180/math.pi + 44.5
 
 actual_xu = angle/89 * 1920
