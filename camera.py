@@ -9,7 +9,7 @@ import math
 
 
 class Camera():
-    def __init__(self, usb_index, path, fov=90, no_camera=False):
+    def __init__(self, usb_index, path, fov=89, no_camera=False):
         self.image_path = path
         self.image_width = 0 # gets set in load_images()
         self.fov = fov # degrees
@@ -33,7 +33,7 @@ class Camera():
 
         # solve for the angle
         theta = math.atan(y_dart/x_dart) # in radians
-        angle = theta * (180/3.1415) # convert to degrees
+        angle = theta * (180/math.pi) # convert to degrees
 
         # makes sure that the arctan angle is accurate for scoring
         if x_dart < 0:
@@ -121,7 +121,7 @@ class Camera():
         return x_dart, y_dart
 
     # compute angles from camera to dart
-    def compute_angles(self, coordinates, fov=90):
+    def compute_angles(self, coordinates, fov=89):
         angle = [0, 0]
         angle[0] = coordinates[0] / self.image_width * fov
         angle[1] = coordinates[1] / self.image_width * fov
@@ -215,7 +215,7 @@ class Camera():
         plt.show()
         
         # find coordinates of dart tip in canny edge image
-        ctr = max(ctrs, key = lambda ctr: len(ctr) * cv2.minAreaRect(ctr)[1])#(max(ctr, key=lambda x: x[0][1]) - min(ctr, key=lambda x: x[0][1])))
+        ctr = max(ctrs, key = lambda ctr: len(ctr) * cv2.minAreaRect(ctr)[1]/cv2.minAreaRect(ctr[0]))#(max(ctr, key=lambda x: x[0][1]) - min(ctr, key=lambda x: x[0][1])))
         ctr_ind = (np.argmax([xy[0][1] for xy in ctr]))
         
         print("Image processing time: " + str(time.time()-start_time))
