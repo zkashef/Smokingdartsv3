@@ -215,7 +215,7 @@ class Camera():
         plt.show()
         
         # find coordinates of dart tip in canny edge image
-        ctr = max(ctrs, key = lambda ctr: len(ctr) * cv2.minAreaRect(ctr)[1][1]  / cv2.minAreaRect(ctr)[1][0])#(max(ctr, key=lambda x: x[0][1]) - min(ctr, key=lambda x: x[0][1])))
+        ctr = max(ctrs, key = lambda ctr: len(ctr) * cv2.minAreaRect(ctr)[1][1]  / (1 + cv2.minAreaRect(ctr)[1][0]))#(max(ctr, key=lambda x: x[0][1]) - min(ctr, key=lambda x: x[0][1])))
         ctr_ind = (np.argmax([xy[0][1] for xy in ctr]))
         
         print("Image processing time: " + str(time.time()-start_time))
