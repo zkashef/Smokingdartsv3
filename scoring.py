@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
 
         # initialize impact sensor on Arduino
-        ser = serial.Serial('/dev/ttyUSB0', 9600)
+        ser = serial.Serial('/dev/ttyACM0', 9600)
         time.sleep(2)  # Allow so
 
         """board = pyfirmata.Arduino('/dev/ttyACM0')
