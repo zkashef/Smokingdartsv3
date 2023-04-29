@@ -196,6 +196,7 @@ class Camera():
         
         thresh = cv2.threshold(diff, 200, 255, cv2.THRESH_OTSU)[1]
         
+        # take care of the small noise through erosion and dilation, most lines will be taken away
         kernel = np.ones((9, 9), np.uint8)
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations=1)
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_ERODE, kernel, iterations=1)
@@ -217,10 +218,26 @@ class Camera():
         # find coordinates of dart tip in canny edge image
         ctr = max(ctrs, key = lambda ctr: len(ctr) * cv2.minAreaRect(ctr)[1][1]  )#(max(ctr, key=lambda x: x[0][1]) - min(ctr, key=lambda x: x[0][1])))
         ctr_ind = (np.argmax([xy[0][1] for xy in ctr]))
+
+        y_pix = ctr[ctr_ind][0][1]
+
+        ### in case multiple pixels have same y pixel coordinate
+        x_tips = []
+        for ctr_tup in ctr:
+            if ctr_tup[0][1] = y_pix
+            x_tips+=[ctr_tup[0][0]]
+        
+        #print(sum(x_list)/len(x_list))
+        x_pix = sum(x_list)/len(x_list)
+
+        print(len(x_list))
+        
+
+        
         
         print("Image processing time: " + str(time.time()-start_time))
-        return ((ctr[ctr_ind])[0][0], ctr[ctr_ind][0][1])  ### returns x and y
-
+        #return ((ctr[ctr_ind])[0][0], ctr[ctr_ind][0][1])  ### returns x and y
+        return (x_pix, y_pix)
 
 
     def dist_calib(self, x, y):

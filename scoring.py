@@ -9,6 +9,8 @@ from camera import *
 import pyfirmata
 import paho.mqtt.publish as publish
 import atexit
+import serial
+import time
 
 def release_cameras(camX, camY):
     try:
@@ -51,6 +53,9 @@ if __name__ == "__main__":
 
 
         # initialize impact sensor on Arduino
+        ser = serial.Serial('/dev/ttyUSB0', 9600)
+        time.sleep(2)  # Allow so
+
         board = pyfirmata.Arduino('/dev/ttyACM0')
         KNOCK_SENSOR = "A0"
         THRESHOLD = .1
@@ -77,12 +82,20 @@ if __name__ == "__main__":
             
             ##### Wait for impact #####
             print("Waiting for impact...")
+            
             while True:
+                data = ser.readline().decode('utf-8').strip()  # Read and decode data from the serial port
+                print("Received data:", data)  # Print the received data
+                if data == 1:
+                    break
+        
+
+            """while True:
                 sensor_reading = board.analog[0].read()
                 #print(sensor_reading)
                 if sensor_reading is not None:
                     if sensor_reading >= THRESHOLD:
-                        break
+                        break"""
             
             #input("Enter when impact")
             
