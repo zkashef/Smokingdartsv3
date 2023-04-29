@@ -224,13 +224,13 @@ class Camera():
         ### in case multiple pixels have same y pixel coordinate
         x_tips = []
         for ctr_tup in ctr:
-            if ctr_tup[0][1] = y_pix
-            x_tips+=[ctr_tup[0][0]]
+            if ctr_tup[0][1] == y_pix:
+                x_tips+=[ctr_tup[0][0]]
         
         #print(sum(x_list)/len(x_list))
-        x_pix = sum(x_list)/len(x_list)
+        x_pix = sum(x_tips)/len(x_tips)
 
-        print(len(x_list))
+        print("length of bottom line: " + str(len(x_tips)))
         
 
         
@@ -241,19 +241,22 @@ class Camera():
 
 
     def dist_calib(self, x, y):
-        coeffs = np.array([-1.16872310e-06,  5.39767230e-12, -6.77448104e-18, -8.43505986e-06, -1.01073783e-04])
+        """coeffs = np.array([-1.16872310e-06,  5.39767230e-12, -6.77448104e-18, -8.43505986e-06, -1.01073783e-04])
 
         
         k1 = coeffs[0]
         k2 = coeffs[1]
         k3 = coeffs[2]
         p1 = coeffs[3]
-        p2 = coeffs[4]
+        p2 = coeffs[4]"""
+
+        k1 = 1.86866052e-07
         x_diff = x - 960
         y_diff = y - 540
         r = math.sqrt(x_diff**2 + y_diff**2)
 
-        xu = x + x_diff*r**2 * k1 + x_diff*r**4 * k2 + x_diff*r**6 * k3 + (r**2 + 2*(x_diff)**2) * p1 + 2*x_diff*y_diff*p2
+        #xu = x + x_diff*r**2 * k1 + x_diff*r**4 * k2 + x_diff*r**6 * k3 + (r**2 + 2*(x_diff)**2) * p1 + 2*x_diff*y_diff*p2
+        xu =    960 + (x_diff)/(1 + r**2*k1)
         return xu
 
 

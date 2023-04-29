@@ -56,13 +56,13 @@ if __name__ == "__main__":
         ser = serial.Serial('/dev/ttyUSB0', 9600)
         time.sleep(2)  # Allow so
 
-        board = pyfirmata.Arduino('/dev/ttyACM0')
+        """board = pyfirmata.Arduino('/dev/ttyACM0')
         KNOCK_SENSOR = "A0"
         THRESHOLD = .1
         sensor_reading = 0
         it = pyfirmata.util.Iterator(board)
         it.start()
-        board.analog[0].mode = pyfirmata.INPUT
+        board.analog[0].mode = pyfirmata.INPUT"""
         
 
         # initialize MQTT server
