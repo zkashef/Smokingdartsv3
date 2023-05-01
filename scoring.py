@@ -6,7 +6,6 @@
 from camera import *
 
 # import libraries
-import pyfirmata
 import paho.mqtt.publish as publish
 import atexit
 import serial
@@ -85,17 +84,12 @@ if __name__ == "__main__":
         while option==1: 
             camX, camY = initalize_cameras(image_path)
 
+            time.sleep(5)
             # capture initial images
             img = camX.capture_image(image_path + "/image_nodartX")
             #display_image(img)
             img = camY.capture_image(image_path + "/image_nodartY")
             #display_image(img)
-            
-            time.sleep(5)
-            while True:
-                ser.write(str(7).encode('utf-8'))
-                print("yo")
-                break
 
 
             ##### Wait for impact #####
