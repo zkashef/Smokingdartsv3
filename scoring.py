@@ -80,12 +80,6 @@ if __name__ == "__main__":
         MQTT_SERVER = "broker.emqx.io"  # Address for the server that hosts the broker
         authentications = {'username': "kdyer", 'password': "Green82"}  # Username and password for sending the data
 
-        while True:
-            ser.write(str(7).encode('utf-8'))
-            time.sleep(1)
-            break
-            
-
 
         option = 1
         while option==1: 
@@ -97,6 +91,13 @@ if __name__ == "__main__":
             img = camY.capture_image(image_path + "/image_nodartY")
             #display_image(img)
             
+            time.sleep(5)
+            while True:
+                ser.write(str(7).encode('utf-8'))
+                print("yo")
+                break
+
+
             ##### Wait for impact #####
             print("Waiting for impact...")
             
