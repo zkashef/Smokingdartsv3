@@ -54,9 +54,7 @@ if __name__ == "__main__":
 
 
         # initialize impact sensor on Arduino
-        
         devtty = ''
-
         path = "/dev"
 
 # Check if the directory path /dev contains ttyACM0 or ttyACM1
@@ -82,7 +80,13 @@ if __name__ == "__main__":
         MQTT_SERVER = "broker.emqx.io"  # Address for the server that hosts the broker
         authentications = {'username': "kdyer", 'password': "Green82"}  # Username and password for sending the data
 
-        
+        while True:
+            ser.write(str(7).encode('utf-8'))
+            time.sleep(1)
+            break
+            
+
+
         option = 1
         while option==1: 
             camX, camY = initalize_cameras(image_path)
