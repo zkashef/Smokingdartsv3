@@ -11,6 +11,7 @@ import paho.mqtt.publish as publish
 import atexit
 import serial
 import time
+import os
 
 def release_cameras(camX, camY):
     try:
@@ -54,7 +55,18 @@ if __name__ == "__main__":
 
         # initialize impact sensor on Arduino
         
-        ser = serial.Serial('/dev/ttyACM0', 9600)
+        devtty = ''
+
+        path = "/dev"
+
+# Check if the directory path /dev contains ttyACM0 or ttyACM1
+        if any(fname == "ttyACM0" for fname in os.listdir(path)):
+            print("0")
+        elif any(fname == "ttyACM1" for fname in os.listdir(path)):
+            print("1")
+        else:
+            print("Neither ttyACM0 nor ttyACM1 was found in the path /dev.")
+        ser = serial.Serial('devtty', 9600)
         
 
         """board = pyfirmata.Arduino('/dev/ttyACM0')
@@ -92,7 +104,7 @@ if __name__ == "__main__":
                     break
     
             
-            input("Enter when impact")
+            #input("Enter when impact")
             
             
 
