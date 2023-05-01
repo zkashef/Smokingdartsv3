@@ -78,7 +78,6 @@ if __name__ == "__main__":
         # initialize MQTT server
         MQTT_SERVER = "broker.emqx.io"  # Address for the server that hosts the broker
         authentications = {'username': "kdyer", 'password': "Green82"}  # Username and password for sending the data
-
         
         
         option = 1
@@ -98,6 +97,7 @@ if __name__ == "__main__":
             print("Waiting for impact...")
             
             while True:
+                ser.reset_input_buffer()
                 data = ser.readline().decode('utf-8').strip()  # Read and decode data from the serial port
                 print("Received data:", data)  # Print the received data
                 if int(data) == 1:
