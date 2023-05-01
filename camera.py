@@ -217,7 +217,15 @@ class Camera():
         
         # find coordinates of dart tip in canny edge image
 
-        ctrs = [ctr for ctr in ctrs if min(ctr, key = lambda xy: xy[0][1]) > 500]
+        #ctrs = [ctr for ctr in ctrs if min(ctr, key = lambda xy: xy[0][1]) > 500]
+        temp_ctrs = []
+
+        for ctr in ctrs:
+            min_y = min(ctr, key = lambda xy: xy[0][1])
+            print(min_y)
+            if min_y < 500:
+                temp_ctrs+=[ctr]
+        ctrs=temp_ctrs
             
         ctr = max(ctrs, key = lambda ctr: len(ctr) * cv2.minAreaRect(ctr)[1][1]  )#(max(ctr, key=lambda x: x[0][1]) - min(ctr, key=lambda x: x[0][1])))
         ctr_ind = (np.argmax([xy[0][1] for xy in ctr]))
