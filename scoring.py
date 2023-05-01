@@ -61,12 +61,12 @@ if __name__ == "__main__":
 
 # Check if the directory path /dev contains ttyACM0 or ttyACM1
         if any(fname == "ttyACM0" for fname in os.listdir(path)):
-            print("0")
+            devtty = '/dev/ttyACM0'
         elif any(fname == "ttyACM1" for fname in os.listdir(path)):
-            print("1")
+            devtty = '/dev/ttyACM1'
         else:
             print("Neither ttyACM0 nor ttyACM1 was found in the path /dev.")
-        ser = serial.Serial('devtty', 9600)
+        ser = serial.Serial(devtty, 9600)
         
 
         """board = pyfirmata.Arduino('/dev/ttyACM0')
