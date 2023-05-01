@@ -79,12 +79,11 @@ if __name__ == "__main__":
         MQTT_SERVER = "broker.emqx.io"  # Address for the server that hosts the broker
         authentications = {'username': "kdyer", 'password': "Green82"}  # Username and password for sending the data
 
-
+        camX, camY = initalize_cameras(image_path)
+        
         option = 1
-        while option==1: 
-            camX, camY = initalize_cameras(image_path)
-
-            time.sleep(5)
+        while option:
+            time.sleep(3)
             # capture initial images
             img = camX.capture_image(image_path + "/image_nodartX")
             #display_image(img)
@@ -102,11 +101,7 @@ if __name__ == "__main__":
                     time.sleep(1)
                     break
     
-            
-            #input("Enter when impact")
-            
-            
-
+        
             # capture final images
             img = camX.capture_image(image_path + "/image_dartX")
             #display_image(img)
@@ -175,7 +170,7 @@ if __name__ == "__main__":
             ax.plot(x_dart, y_dart)
             plt.show()
 
-            option = input("1 to run program again, 0 to exit: ")
+            option = int(input("1 to run program again, 0 to exit: "))
 
 
     except KeyboardInterrupt:

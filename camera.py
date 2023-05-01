@@ -181,13 +181,10 @@ class Camera():
         grayA = cv2.cvtColor(imageA, cv2.COLOR_RGB2GRAY)
         grayB = cv2.cvtColor(imageB, cv2.COLOR_RGB2GRAY)
 
-
         # plt.imshow(grayA, cmap='gray')
         # plt.show()
         # plt.imshow(grayB, cmap='gray')
         # plt.show()
-
-
 
         (score, diff) = compare_ssim(grayA, grayB, full=True)
         #diff = cv2.subtract(grayA, grayB)
@@ -200,7 +197,7 @@ class Camera():
         kernel = np.ones((9, 9), np.uint8)
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_DILATE, kernel, iterations=1)
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_ERODE, kernel, iterations=1)
-        
+    
         
         
         # perform canny edge detection
@@ -208,12 +205,12 @@ class Camera():
         ctrs, hier = cv2.findContours(edge, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         
         # display images
-        plt.imshow(diff, cmap='gray')
-        plt.show()
+        # plt.imshow(diff, cmap='gray')
+        # plt.show()
         # plt.imshow(thresh, cmap='gray')
         # plt.show()
-        plt.imshow(edge, cmap='gray')
-        plt.show()
+        # plt.imshow(edge, cmap='gray')
+        # plt.show()
         
         # find coordinates of dart tip in canny edge image
 
@@ -243,9 +240,6 @@ class Camera():
 
         print("length of bottom line: " + str(len(x_tips)))
         
-
-        
-        
         print("Image processing time: " + str(time.time()-start_time))
         #return ((ctr[ctr_ind])[0][0], ctr[ctr_ind][0][1])  ### returns x and y
         return (x_pix, y_pix)
@@ -254,7 +248,6 @@ class Camera():
     def dist_calib(self, x, y):
         """coeffs = np.array([-1.16872310e-06,  5.39767230e-12, -6.77448104e-18, -8.43505986e-06, -1.01073783e-04])
 
-        
         k1 = coeffs[0]
         k2 = coeffs[1]
         k3 = coeffs[2]
