@@ -54,7 +54,7 @@ if __name__ == "__main__":
 
         # initialize impact sensor on Arduino
         
-        #ser = serial.Serial('/dev/ttyACM0', 9600)
+        ser = serial.Serial('/dev/ttyACM0', 9600)
         
 
         """board = pyfirmata.Arduino('/dev/ttyACM0')
@@ -84,20 +84,13 @@ if __name__ == "__main__":
             ##### Wait for impact #####
             print("Waiting for impact...")
             
-            """while True:
+            while True:
                 data = ser.readline().decode('utf-8').strip()  # Read and decode data from the serial port
                 print("Received data:", data)  # Print the received data
                 if int(data) == 1:
                     time.sleep(1)
-                    break"""
-        
-
-            """while True:
-                sensor_reading = board.analog[0].read()
-                #print(sensor_reading)
-                if sensor_reading is not None:
-                    if sensor_reading >= THRESHOLD:
-                        break"""
+                    break
+    
             
             input("Enter when impact")
             
@@ -136,6 +129,7 @@ if __name__ == "__main__":
 
             # calculate score of throw and send to app
             score, channel, slice_area = camX.get_score(x_dart, y_dart)
+            ser.write(str(slice_area).encode('utf-8'))
             publish.single(str(channel), str(slice_area), hostname=MQTT_SERVER, auth=authentications)
 
 
