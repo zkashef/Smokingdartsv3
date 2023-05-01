@@ -87,6 +87,7 @@ if __name__ == "__main__":
                 data = ser.readline().decode('utf-8').strip()  # Read and decode data from the serial port
                 print("Received data:", data)  # Print the received data
                 if int(data) == 1:
+                    time.sleep(1)
                     break
         
 
