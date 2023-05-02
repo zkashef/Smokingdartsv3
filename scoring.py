@@ -93,9 +93,9 @@ if __name__ == "__main__":
             time.sleep(3)
             # capture initial images
             img = camX.capture_image(image_path + "/image_nodartX")
-            #display_image(img)
+            display_image(img)
             img = camY.capture_image(image_path + "/image_nodartY")
-            #display_image(img)
+            display_image(img)
 
 
             ##### Wait for impact #####
@@ -112,9 +112,9 @@ if __name__ == "__main__":
         
             # capture final images
             img = camX.capture_image(image_path + "/image_dartX")
-            #display_image(img)
+            display_image(img)
             img = camY.capture_image(image_path + "/image_dartY")
-            #display_image(img)
+            display_image(img)
             
 
             # capture time it takes to release cameras
@@ -143,6 +143,9 @@ if __name__ == "__main__":
             # calculate score of throw and send to app
             score, channel, slice_area = camX.get_score(x_dart, y_dart)
             ser.write(str(slice_area).encode('utf-8'))
+            print("Score: ", score)
+            print("Channel: ", channel)
+            print("Slice Area: ", slice_area)
             publish.single(str(channel), str(slice_area), hostname=MQTT_SERVER, auth=authentications)
 
             end_time = time.time()

@@ -49,9 +49,11 @@ class Camera():
         score = 0
         channel = 0
         if radius <= 5:
+            channel = 11
             score = 50
             print("Bullseye!!!")
         elif radius > 5 and radius <= 15:
+            channel = 11
             score = 25
             print("Bull!!!")
         elif radius > 15 and radius < 95:
@@ -72,6 +74,7 @@ class Camera():
             score = 0
             print("Missed. Try Again.")
         else:
+            channel = 0
             score = slice_area
             print("Nice hit!!!")
         print("The score is: " + str(score))
