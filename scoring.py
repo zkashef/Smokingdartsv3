@@ -7,6 +7,7 @@ from camera import *
 
 # import libraries
 import paho.mqtt.publish as publish
+import paho.mqtt.subscribe as subscribe
 import atexit
 import serial
 import time
@@ -79,6 +80,10 @@ if __name__ == "__main__":
         MQTT_SERVER = "broker.emqx.io"  # Address for the server that hosts the broker
         authentications = {'username': "kdyer", 'password': "Green82"}  # Username and password for sending the data
         
+        # wait for message before entering loop
+        msg = subscribe.simple("Start", hostname=MQTT_SERVER, auth=authentications)
+        print(msg.payload)
+
         
         option = 1
         while option:
