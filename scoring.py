@@ -108,14 +108,14 @@ if __name__ == "__main__":
         msg = subscribe.simple("Start", hostname=MQTT_SERVER, auth=authentications)
         print(msg.payload)
 
-        throw_count = 1
+        throw_count = 0
         option = 1
         while option:
             # wait for message if 3 throws
             if throw_count == 3:
                 msg = subscribe.simple("Start", hostname=MQTT_SERVER, auth=authentications)
                 print(msg.payload)
-                throw_count = 1
+                throw_count = 0
 
             # capture time it takes to capture images and send score
             start_time = time.time()
