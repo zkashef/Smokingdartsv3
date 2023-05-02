@@ -40,6 +40,39 @@ def display_image(img):
     plt.plot([int(image_width/2), int(image_width/2)], [0, image_height], 'r-')
     plt.show()
     return
+
+# Create Visualiation of Dart Board in Matplotlib
+def visualize_board(x_dart, y_dart, board_radius):
+    fig, ax = plt.subplots() 
+    ax.set_xlim(-400, 400)
+    ax.set_ylim(-400, 400)
+    dart_board = plt.Circle((0, 0), board_radius, edgecolor='black', fill=False)
+    #dart_board = ax.pie([.05]*20)
+    dart = plt.Arrow(x_dart, y_dart, 15, 15, color='black')
+    bullseye = plt.Circle((0, 0), 5, edgecolor='black', fill=False)
+    bulls = plt.Circle((0, 0), 15, edgecolor='black', fill=False)
+    inner = plt.Circle((0, 0), 95, edgecolor='black', fill=False)
+    inner_outer = plt.Circle((0, 0), 105, edgecolor='black', fill=False)
+    outer_inner = plt.Circle((0, 0), 160, edgecolor='black', fill=False)
+    outer = plt.Circle((0, 0), 170, edgecolor='black', fill=False)
+    camA = plt.Rectangle((x1, y1), 10, 10, edgecolor='black', fill=False, clip_on=False)
+    camB = plt.Rectangle((x2, y2), 10, 10, edgecolor='black', fill=False, clip_on=False)
+
+    ax.add_patch(inner)
+    ax.add_patch(inner_outer)
+    ax.add_patch(outer_inner)
+    ax.add_patch(outer)
+    ax.add_patch(bulls) 
+    ax.add_patch(dart_board)
+    ax.add_patch(dart)
+    ax.add_patch(bullseye)
+    ax.add_patch(camA)
+    ax.add_patch(camB)
+    leg_Cam1_Dart = ax.axline((x1, y1), slope = camX.slope1)
+    leg_Cam2_Dart = ax.axline((x2, y2), slope = camX.slope2)
+    ax.plot(x_dart, y_dart)
+    plt.show()
+    return
     
 
 if __name__ == "__main__":
@@ -57,7 +90,7 @@ if __name__ == "__main__":
         devtty = ''
         path = "/dev"
 
-# Check if the directory path /dev contains ttyACM0 or ttyACM1
+        # Check if the directory path /dev contains ttyACM0 or ttyACM1
         if any(fname == "ttyACM0" for fname in os.listdir(path)):
             devtty = '/dev/ttyACM0'
         elif any(fname == "ttyACM1" for fname in os.listdir(path)):
@@ -65,15 +98,6 @@ if __name__ == "__main__":
         else:
             print("Neither ttyACM0 nor ttyACM1 was found in the path /dev.")
         ser = serial.Serial(devtty, 9600)
-        
-
-        """board = pyfirmata.Arduino('/dev/ttyACM0')
-        KNOCK_SENSOR = "A0"
-        THRESHOLD = .1
-        sensor_reading = 0
-        it = pyfirmata.util.Iterator(board)
-        it.start()
-        board.analog[0].mode = pyfirmata.INPUT"""
         
 
         # initialize MQTT server
@@ -87,10 +111,12 @@ if __name__ == "__main__":
         
         option = 1
         while option:
-
+            # capture time it takes to capture images and send score
+            
+            start_time = time.time()
             camX, camY = initalize_cameras(image_path)
-
-            time.sleep(3)
+            
+            #time.sleep(3)
             # capture initial images
             img = camX.capture_image(image_path + "/image_nodartX")
             #display_image(img)
@@ -108,7 +134,6 @@ if __name__ == "__main__":
                 if int(data) == 1:
                     time.sleep(1)
                     break
-    
         
             # capture final images
             img = camX.capture_image(image_path + "/image_dartX")
@@ -116,9 +141,6 @@ if __name__ == "__main__":
             img = camY.capture_image(image_path + "/image_dartY")
             #display_image(img)
             
-
-            # capture time it takes to release cameras
-            start_time = time.time()
             release_cameras(camX, camY)
 
             # get dart tip coordinates from images
@@ -154,44 +176,16 @@ if __name__ == "__main__":
             print("Score: ", score)
             print("Channel: ", channel)
             print("Slice Area: ", slice_area)
-            
 
             end_time = time.time()
-            print("Time to send score: ", end_time - start_time)
-
-            # Create Visualiation of Dart Board
-            fig, ax = plt.subplots() 
-            ax.set_xlim(-400, 400)
-            ax.set_ylim(-400, 400)
-            dart_board = plt.Circle((0, 0), board_radius, edgecolor='black', fill=False)
-            #dart_board = ax.pie([.05]*20)
-            dart = plt.Arrow(x_dart, y_dart, 15, 15, color='black')
-            bullseye = plt.Circle((0, 0), 5, edgecolor='black', fill=False)
-            bulls = plt.Circle((0, 0), 15, edgecolor='black', fill=False)
-            inner = plt.Circle((0, 0), 95, edgecolor='black', fill=False)
-            inner_outer = plt.Circle((0, 0), 105, edgecolor='black', fill=False)
-            outer_inner = plt.Circle((0, 0), 160, edgecolor='black', fill=False)
-            outer = plt.Circle((0, 0), 170, edgecolor='black', fill=False)
-            camA = plt.Rectangle((x1, y1), 10, 10, edgecolor='black', fill=False, clip_on=False)
-            camB = plt.Rectangle((x2, y2), 10, 10, edgecolor='black', fill=False, clip_on=False)
-
-            ax.add_patch(inner)
-            ax.add_patch(inner_outer)
-            ax.add_patch(outer_inner)
-            ax.add_patch(outer)
-            ax.add_patch(bulls) 
-            ax.add_patch(dart_board)
-            ax.add_patch(dart)
-            ax.add_patch(bullseye)
-            ax.add_patch(camA)
-            ax.add_patch(camB)
-            leg_Cam1_Dart = ax.axline((x1, y1), slope = camX.slope1)
-            leg_Cam2_Dart = ax.axline((x2, y2), slope = camX.slope2)
-            ax.plot(x_dart, y_dart)
-            #plt.show()
-            release_cameras(camX, camY)
+            print("Time to capture images & capture images: ", end_time - start_time)
+            
+            # visualize board
+            #visualize_board(x_dart, y_dart, x1, y1, x2, y2, board_radius, score)
+        
             option = int(input("1 to run program again, 0 to exit: "))
 
+        release_cameras(camX, camY)
 
     except KeyboardInterrupt:
         print("Keyboard Interrupt")
