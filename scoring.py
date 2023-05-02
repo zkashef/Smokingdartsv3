@@ -25,8 +25,8 @@ def release_cameras(camX, camY):
 def initalize_cameras(image_path):
     # initialize cameras
     try:
-        camY = Camera(2, image_path)
-        camX = Camera(0, image_path)
+        camY = Camera(0, image_path)
+        camX = Camera(2, image_path)
         # release cameras when program exits
         atexit.register(release_cameras, camX, camY)
         return  camX, camY
@@ -42,7 +42,7 @@ def display_image(img):
     return
 
 # Create Visualiation of Dart Board in Matplotlib
-def visualize_board(x_dart, y_dart, board_radius):
+def visualize_board(x_dart, y_dart, x1, y1, x2, y2, board_radius):
     fig, ax = plt.subplots() 
     ax.set_xlim(-400, 400)
     ax.set_ylim(-400, 400)
@@ -186,7 +186,7 @@ if __name__ == "__main__":
             print("Time to capture images & capture images: ", end_time - start_time)
             
             # visualize board
-            visualize_board(x_dart, y_dart, x1, y1, x2, y2, board_radius, score)
+            visualize_board(x_dart, y_dart, x1, y1, x2, y2, board_radius)
         
             throw_count += 1
             option = int(input("1 to run program again, 0 to exit: "))
