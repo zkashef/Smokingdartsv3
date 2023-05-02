@@ -142,9 +142,9 @@ if __name__ == "__main__":
         
             # capture final images
             img = camX.capture_image(image_path + "/image_dartX")
-            display_image(img)
+            #display_image(img)
             img = camY.capture_image(image_path + "/image_dartY")
-            display_image(img)
+            #display_image(img)
             
             release_cameras(camX, camY)
 
@@ -185,8 +185,8 @@ if __name__ == "__main__":
             end_time = time.time()
             print("Time to capture images & capture images: ", end_time - start_time)
             
-            # visualize board
-            visualize_board(x_dart, y_dart, x1, y1, x2, y2, board_radius)
+            # # visualize board
+            # visualize_board(x_dart, y_dart, x1, y1, x2, y2, board_radius)
         
             throw_count += 1
             option = int(input("1 to run program again, 0 to exit: "))

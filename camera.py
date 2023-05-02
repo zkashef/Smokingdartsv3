@@ -212,8 +212,8 @@ class Camera():
         # plt.show()
         # plt.imshow(thresh, cmap='gray')
         # plt.show()
-        plt.imshow(edge, cmap='gray')
-        plt.show()
+        # plt.imshow(edge, cmap='gray')
+        # plt.show()
         
         # find coordinates of dart tip in canny edge image
 
