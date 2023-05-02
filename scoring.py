@@ -142,7 +142,12 @@ if __name__ == "__main__":
 
             # calculate score of throw and send to app
             score, channel, slice_area = camX.get_score(x_dart, y_dart)
-            ser.write(str(slice_area).encode('utf-8'))
+            if score == 25:
+                ser.write(str(25).encode('utf-8'))
+            elif score == 50:
+                ser.write(str(50).encode('utf-8'))
+            else:
+                ser.write(str(slice_area).encode('utf-8'))
             print("Score: ", score)
             print("Channel: ", channel)
             print("Slice Area: ", slice_area)
