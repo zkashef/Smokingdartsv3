@@ -189,7 +189,7 @@ if __name__ == "__main__":
             # visualize_board(x_dart, y_dart, x1, y1, x2, y2, board_radius)
         
             throw_count += 1
-            option = int(input("1 to run program again, 0 to exit: "))
+            #option = int(input("1 to run program again, 0 to exit: "))
 
         release_cameras(camX, camY)
 
