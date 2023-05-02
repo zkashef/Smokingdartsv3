@@ -174,8 +174,8 @@ class Camera():
         start_time = time.time()
         
         # crop top 1/5 of images
-        #imageA = imageA[int(self.image_height/5):self.image_height, 0:self.image_width]
-        #imageB = imageB[int(self.image_height/5):self.image_height, 0:self.image_width]
+        imageA = imageA[int(self.image_height/5):self.image_height, 0:self.image_width]
+        imageB = imageB[int(self.image_height/5):self.image_height, 0:self.image_width]
 
         # create difference image
         grayA = cv2.cvtColor(imageA, cv2.COLOR_RGB2GRAY)
@@ -205,12 +205,12 @@ class Camera():
         ctrs, hier = cv2.findContours(edge, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         
         # display images
-        # plt.imshow(diff, cmap='gray')
-        # plt.show()
-        # plt.imshow(thresh, cmap='gray')
-        # plt.show()
-        # plt.imshow(edge, cmap='gray')
-        # plt.show()
+        plt.imshow(diff, cmap='gray')
+        plt.show()
+        plt.imshow(thresh, cmap='gray')
+        plt.show()
+        plt.imshow(edge, cmap='gray')
+        plt.show()
         
         # find coordinates of dart tip in canny edge image
 
@@ -241,7 +241,6 @@ class Camera():
         print("length of bottom line: " + str(len(x_tips)))
         
         print("Image processing time: " + str(time.time()-start_time))
-        #return ((ctr[ctr_ind])[0][0], ctr[ctr_ind][0][1])  ### returns x and y
         return (x_pix, y_pix)
 
 
