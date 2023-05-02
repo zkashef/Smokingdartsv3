@@ -108,11 +108,16 @@ if __name__ == "__main__":
         msg = subscribe.simple("Start", hostname=MQTT_SERVER, auth=authentications)
         print(msg.payload)
 
-        
+        throw_count = 1
         option = 1
         while option:
+            # wait for message if 3 throws
+            if throw_count == 3:
+                msg = subscribe.simple("Start", hostname=MQTT_SERVER, auth=authentications)
+                print(msg.payload)
+                throw_count = 1
+
             # capture time it takes to capture images and send score
-            
             start_time = time.time()
             camX, camY = initalize_cameras(image_path)
             
@@ -183,6 +188,7 @@ if __name__ == "__main__":
             # visualize board
             #visualize_board(x_dart, y_dart, x1, y1, x2, y2, board_radius, score)
         
+            throw_count += 1
             option = int(input("1 to run program again, 0 to exit: "))
 
         release_cameras(camX, camY)
