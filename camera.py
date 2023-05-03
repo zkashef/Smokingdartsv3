@@ -208,10 +208,10 @@ class Camera():
         ctrs, hier = cv2.findContours(edge, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         
         # display images
-        # plt.imshow(diff, cmap='gray')
-        # plt.show()
-        # plt.imshow(thresh, cmap='gray')
-        # plt.show()
+        plt.imshow(diff, cmap='gray')
+        plt.show()
+        plt.imshow(thresh, cmap='gray')
+        plt.show()
         # plt.imshow(edge, cmap='gray')
         # plt.show()
         
