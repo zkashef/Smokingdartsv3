@@ -142,9 +142,9 @@ if __name__ == "__main__":
         
             # capture final images
             img = camX.capture_image(image_path + "/image_dartX")
-            #display_image(img)
+            display_image(img)
             img = camY.capture_image(image_path + "/image_dartY")
-            #display_image(img)
+            display_image(img)
             
             release_cameras(camX, camY)
 
