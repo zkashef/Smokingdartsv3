@@ -194,7 +194,7 @@ class Camera():
         diff = (diff * 255).astype("uint8")
 
         
-        thresh = cv2.threshold(diff, 200, 255, cv2.THRESH_OTSU)[1]
+        thresh = cv2.threshold(diff, 200, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 155, 77)[1]#cv2.THRESH_OTSU)[1]
         
         # take care of the small noise through erosion and dilation, most lines will be taken away
         kernel = np.ones((9, 9), np.uint8)
@@ -248,21 +248,33 @@ class Camera():
 
 
     def dist_calib(self, x, y):
-        """coeffs = np.array([-1.16872310e-06,  5.39767230e-12, -6.77448104e-18, -8.43505986e-06, -1.01073783e-04])
+        coeffs = np.array([-1.16872310e-06,  5.39767230e-12, -6.77448104e-18, -8.43505986e-06, -1.01073783e-04])
 
+       
         k1 = coeffs[0]
         k2 = coeffs[1]
         k3 = coeffs[2]
         p1 = coeffs[3]
-        p2 = coeffs[4]"""
+        p2 = coeffs[4]
 
-        k1 = 1.86866052e-07
+        k1_div = 1.86866052e-07
         x_diff = x - 960
         y_diff = y - 540
         r = math.sqrt(x_diff**2 + y_diff**2)
 
-        #xu = x + x_diff*r**2 * k1 + x_diff*r**4 * k2 + x_diff*r**6 * k3 + (r**2 + 2*(x_diff)**2) * p1 + 2*x_diff*y_diff*p2
-        xu =    960 + (x_diff)/(1 + r**2*k1)
+       
+        xu = 0
+        if x_diff < 430:
+
+            xu = x + x_diff*r**2 * k1 + x_diff*r**4 * k2 + x_diff*r**6 * k3 + (r**2 + 2*(x_diff)**2) * p1 + 2*x_diff*y_diff*p2
+            if (xu - x) > 100:
+                xu =    960 + (x_diff)/(1 + r**2*k1_div)
+        else:
+            xu =    960 + (x_diff)/(1 + r**2*k1_div)
+
+       
         return xu
+
+
 
 
