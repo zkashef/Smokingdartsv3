@@ -163,8 +163,8 @@ if __name__ == "__main__":
 
             # convert coordinates to be relative to dart board
             #cam_dist = 381 #mm
-            x1, y1 = 294, 0
-            x2, y2 = 0, 295
+            x1, y1 = 286, 0
+            x2, y2 = 0, 289.5
             board_radius = 228.6
             x_dart, y_dart = camX.get_board_coordinates(angles_to_dart, x1, y1, x2, y2)
             print("board coordinates: ", x_dart, y_dart)
