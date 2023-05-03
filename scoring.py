@@ -131,7 +131,8 @@ if __name__ == "__main__":
 
             ##### Wait for impact #####
             print("Waiting for impact...")
-            
+            # send 100 to serial
+            ser.write(str(100).encode('utf-8'))
             while True:
                 ser.reset_input_buffer()
                 data = ser.readline().decode('utf-8').strip()  # Read and decode data from the serial port
@@ -139,6 +140,8 @@ if __name__ == "__main__":
                 if int(data) == 1:
                     time.sleep(1)
                     break
+
+            
         
             # capture final images
             img = camX.capture_image(image_path + "/image_dartX")
