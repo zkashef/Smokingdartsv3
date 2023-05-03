@@ -194,7 +194,7 @@ class Camera():
         diff = (diff * 255).astype("uint8")
 
         
-        thresh = cv2.threshold(diff, 200, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 155, 77)[1]#cv2.THRESH_OTSU)[1]
+        thresh = cv2.threshold(diff, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 155, 77)[1]#cv2.THRESH_OTSU)[1]
         
         # take care of the small noise through erosion and dilation, most lines will be taken away
         kernel = np.ones((9, 9), np.uint8)
